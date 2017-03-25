@@ -14,7 +14,7 @@ class CellTest extends TestCase
         $this->assertEquals(2, $cell->getWidth());
 
         $cell->setValue(123);
-        $this->assertEquals(123, $cell->getValue());
+        $this->assertEquals('123', $cell->getValue());
         $this->assertEquals(3, $cell->getWidth());
 
         $ageObject = new class (2008) {
@@ -33,6 +33,12 @@ class CellTest extends TestCase
 
         $cell->setValue($ageObject);
         $this->assertEquals(1, $cell->getWidth());
+
+        $floatCell = new Cell('price', 100.00);
+        $this->assertEquals("100.00", $floatCell->getValue());
+
+        $floatCell->setValue(99.99);
+        $this->assertEquals("99.99", $floatCell->getValue());
     }
 
 }

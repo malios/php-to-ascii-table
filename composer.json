@@ -16,6 +16,7 @@
     ],
     "license": "MIT",
     "require": {
+        "php": "^7",
         "php-ds/php-ds": "^1.1"
     },
     "require-dev": {
@@ -31,5 +32,5 @@
         "psr-4": {
             "Test\\": "tests/"
         }
-    },
+    }
 }

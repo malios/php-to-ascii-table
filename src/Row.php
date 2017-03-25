@@ -27,6 +27,18 @@ class Row
     }
 
     /**
+     * Add multiple cells to row
+     *
+     * @param Cell[] ...$cells
+     */
+    public function addCells(Cell ...$cells)
+    {
+        foreach ($cells as $cell) {
+            $this->addCell($cell);
+        }
+    }
+
+    /**
      * Get single cell by name
      *
      * @param $columnName

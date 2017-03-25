@@ -4,6 +4,7 @@ namespace AsciiTable;
 
 use AsciiTable\Exception\BuilderException;
 use Ds\Map;
+use Ds\Set;
 
 class Builder
 {
@@ -124,56 +125,56 @@ class Builder
 
         $visibleColumns = $this->table->getVisibleColumns();
 
-        $columnWidths = new Map();
-        $lineSeparator = self::CHAR_CORNER_SEPARATOR;
-        $header = PHP_EOL . self::CHAR_CELL_SEPARATOR;
-
-        // render header and cache column widths for faster access
-        foreach ($visibleColumns as $columnName) {
+        // border for header and footer
+        $borderParts = array_map(function ($columnName) {
             $width = $this->table->getColumnWidth($columnName);
-            $columnWidths->put($columnName, $width);
+            return str_repeat(self::CHAR_LINE_SEPARATOR, ($width + 2));
+        }, $visibleColumns->toArray());
 
-            $lineSeparator .= str_repeat(self::CHAR_LINE_SEPARATOR, ($width + 2)) . self::CHAR_CORNER_SEPARATOR;
+        $border = self::CHAR_CORNER_SEPARATOR
+                . join(self::CHAR_CORNER_SEPARATOR, $borderParts)
+                . self::CHAR_CORNER_SEPARATOR;
 
-            $header .= $this->getCellContent($columnName, strlen($columnName), $width)
-                    . self::CHAR_CELL_SEPARATOR;
-        }
+        $headerCells = array_map(function ($columnName) {
+            return new Cell($columnName, $columnName);
+        }, $visibleColumns->toArray());
 
-        // render rows
-        $result = $lineSeparator . $header . PHP_EOL . $lineSeparator;
+        $headerRow = new Row();
+        $headerRow->addCells(...$headerCells);
+        $header = $this->renderRow($headerRow, $visibleColumns);
+
+        $body = '';
         $rows = $this->table->getRows();
+        $visibleColumns = $this->table->getVisibleColumns();
         foreach ($rows as $row) {
-            $result .= PHP_EOL;
-
-            $currentLine = $this->renderRow($row, $visibleColumns, $columnWidths);
-
-            $result .= $currentLine . PHP_EOL . $lineSeparator;
+            $currentLine = $this->renderRow($row, $visibleColumns);
+            $body .= $currentLine . PHP_EOL;
         }
 
-        return $result;
+        $tableAsString = $border . PHP_EOL . $header . PHP_EOL . $border . PHP_EOL . $body . $border;
+        return $tableAsString;
     }
 
     /**
      * Render single row and return string
      *
      * @param Row $row
-     * @param $visibleColumns
-     * @param Map $columnWidths
+     * @param Set $columnNames
      * @return string
      */
-    private function renderRow(Row $row, $visibleColumns, Map $columnWidths)
+    private function renderRow(Row $row, Set $columnNames)
     {
         $line = self::CHAR_CELL_SEPARATOR;
 
         // render cells of the row
-        foreach ($visibleColumns as $columnName) {
-            $colWidth = $columnWidths->get($columnName);
+        foreach ($columnNames as $columnName) {
+            $colWidth = $this->table->getColumnWidth($columnName);
             if ($row->hasCell($columnName)) {
                 $cell = $row->getCell($columnName);
 
-                $currentCell = $this->getCellContent($cell->getValue(), $cell->getWidth(), $colWidth);
+                $currentCell = $this->renderCell($cell, $colWidth);
             } else {
-                $currentCell = $this->getCellContent('', 0, $colWidth);
+                $currentCell = $this->renderCell(new Cell($columnName, ''), $colWidth);
             }
 
             $line .= $currentCell . self::CHAR_CELL_SEPARATOR;
@@ -183,17 +184,16 @@ class Builder
     }
 
     /**
-     * Get cell content with left and right padding depending on the column width
+     * Render cell content with left and right padding depending on the column width
      *
-     * @param $input
-     * @param int $inputLength
+     * @param Cell $cell
      * @param int $colWidth
      * @return string
      */
-    private function getCellContent($input, int $inputLength, int $colWidth) : string
+    private function renderCell(Cell $cell, int $colWidth) : string
     {
-        $content = self::CHAR_CELL_PADDING . (string) $input
-                . str_repeat(self::CHAR_CELL_PADDING, ($colWidth -$inputLength + 1));
+        $content = self::CHAR_CELL_PADDING . (string) $cell->getValue()
+                . str_repeat(self::CHAR_CELL_PADDING, ($colWidth - $cell->getWidth() + 1));
 
         return $content;
     }

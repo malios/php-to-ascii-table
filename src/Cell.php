@@ -12,7 +12,7 @@ class Cell
     private $columnName;
 
     /**
-     * @var mixed
+     * @var string
      */
     private $value;
 
@@ -30,9 +30,9 @@ class Cell
     /**
      * Get value of the cell
      *
-     * @return mixed
+     * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -44,8 +44,18 @@ class Cell
      */
     public function setValue($value)
     {
-        $this->width = strlen(strval($value));
-        $this->value = $value;
+        if (is_float($value)) {
+            $round = round($value);
+            if (($value - $round) === (float)0) {
+                $this->value = number_format($value, 2, '.', ' ');
+            } else {
+                $this->value = (string) $value;
+            }
+        } else {
+            $this->value = (string) $value;
+        }
+
+        $this->width = strlen($this->value);
     }
 
     /**
