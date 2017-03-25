@@ -1,0 +1,35 @@
+{
+    "name": "malios/php-to-ascii-table",
+    "description": "A PHP library to generate plain text tables.",
+    "type": "library",
+    "keywords": [
+        "php",
+        "table",
+        "ascii",
+        "plain text table"
+    ],
+    "authors": [
+        {
+            "name": "Mehmed Aliosman",
+            "email": "dev.mehmed.aliosman@gmail.com"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php-ds/php-ds": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "AsciiTable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Test\\": "tests/"
+        }
+    },
+}
