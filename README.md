@@ -11,14 +11,18 @@ A small PHP library for generating plain text tables.
 
 ### Installation
 
-Install the library via composer:
-    composer install malios/php-to-ascii-table
+Install via composer:
+
+```bash
+$ composer require malios/php-to-ascii-table
+
+```
 
 ## Usage
 
 ```php
 <?php
-    $builder = new AsciiTable\Builder();
+    $builder = new \AsciiTable\Builder();
     
     $builder->createTable();
     $builder->addRows([

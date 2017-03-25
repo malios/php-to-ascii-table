@@ -211,7 +211,7 @@ EOD;
             ],
             [
                 'Order No' => 'A0004',
-                'Product Name' => 'as data sourceIntel CPU',
+                'Product Name' => 'Intel CPU',
                 'Price' => 5200.00,
                 'Quantity' => 3
             ]

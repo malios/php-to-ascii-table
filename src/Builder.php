@@ -3,7 +3,6 @@
 namespace AsciiTable;
 
 use AsciiTable\Exception\BuilderException;
-use Ds\Map;
 use Ds\Set;
 
 class Builder
