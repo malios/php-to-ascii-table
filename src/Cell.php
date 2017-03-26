@@ -55,7 +55,7 @@ class Cell
             $this->value = (string) $value;
         }
 
-        $this->width = strlen($this->value);
+        $this->width = mb_strlen($this->value);
     }
 
     /**

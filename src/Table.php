@@ -129,8 +129,8 @@ class Table
         }
 
         $visibleColumns = $this->getVisibleColumns();
-        if ($visibleColumns->contains($columnName) && strlen($columnName) > $width) {
-            $width = strlen($columnName);
+        if ($visibleColumns->contains($columnName) && mb_strlen($columnName) > $width) {
+            $width = mb_strlen($columnName);
         }
 
         return $width;

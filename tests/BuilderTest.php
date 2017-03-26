@@ -216,4 +216,58 @@ EOD;
 EOD;
         $this->assertEquals($expected, $result);
     }
+
+    public function testRenderTableWithCyrillicWord()
+    {
+        $builder = new Builder();
+        $builder->addRows([
+            [
+                'name' => 'John',
+                'age' => 21
+            ],
+            [
+                'name' => 'Иван',
+                'age' => 23
+            ]
+        ]);
+
+        $result = $builder->renderTable();
+
+        $expected = <<<EOD
++------+-----+
+| name | age |
++------+-----+
+| John | 21  |
+| Иван | 23  |
++------+-----+
+EOD;
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testRenderWithCyrillicColumnNames()
+    {
+        $builder = new Builder();
+        $builder->addRows([
+            [
+                'име' => 'Джон',
+                'год.' => 21
+            ],
+            [
+                'име' => 'Иван',
+                'год.' => 23
+            ]
+        ]);
+
+        $result = $builder->renderTable();
+
+        $expected = <<<EOD
++------+------+
+| име  | год. |
++------+------+
+| Джон | 21   |
+| Иван | 23   |
++------+------+
+EOD;
+        $this->assertEquals($expected, $result);
+    }
 }

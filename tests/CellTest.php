@@ -41,4 +41,13 @@ class CellTest extends TestCase
         $this->assertEquals("99.99", $floatCell->getValue());
     }
 
+    public function testCellWidthWithMultiByteCharacters()
+    {
+        $cell = new Cell('name', 'Иван');
+        $this->assertEquals(4, $cell->getWidth());
+
+        $cell = new Cell('message', 'Hello, 世界');
+        $this->assertEquals(9, $cell->getWidth());
+    }
+
 }
