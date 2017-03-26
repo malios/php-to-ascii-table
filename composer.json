@@ -17,7 +17,8 @@
     "license": "MIT",
     "require": {
         "php": "^7",
-        "php-ds/php-ds": "^1.1"
+        "php-ds/php-ds": "^1.1",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0"
