@@ -104,6 +104,11 @@ You can build table form any object that implements JsonSerializable interface.
 
 ```
 
+## Contributing
+
+All contributors are welcome. You can open a new issue or submit a pull request.
+See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for details.
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.

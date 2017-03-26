@@ -43,12 +43,10 @@ class Table
     {
         foreach ($row->getCells() as $cell) {
             $columnName = $cell->getColumnName();
+
+            $this->allColumns->add($columnName);
+
             $width = $cell->getWidth();
-
-            if (!$this->allColumns->contains($columnName)) {
-                $this->allColumns->add($columnName);
-            }
-
             if ($this->biggestValues->hasKey($columnName)) {
                 if ($width > $this->biggestValues->get($columnName)) {
                     $this->biggestValues->put($columnName, $width);

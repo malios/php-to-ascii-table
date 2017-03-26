@@ -170,7 +170,6 @@ class Builder
             $colWidth = $this->table->getColumnWidth($columnName);
             if ($row->hasCell($columnName)) {
                 $cell = $row->getCell($columnName);
-
                 $currentCell = $this->renderCell($cell, $colWidth);
             } else {
                 $currentCell = $this->renderCell(new Cell($columnName, ''), $colWidth);
