@@ -32,12 +32,7 @@ class Builder
      */
     private $table;
 
-    /**
-     * Create a table object to build
-     *
-     * @return void
-     */
-    public function createTable()
+    public function __construct()
     {
         $this->table = new Table();
     }
@@ -61,8 +56,6 @@ class Builder
      */
     public function addRow($rowArrayOrObject)
     {
-        if ($this->table === null) throw new BuilderException('Table is not created');
-
         if (is_array($rowArrayOrObject)) {
             $rowArray = $rowArrayOrObject;
         } else if ($rowArrayOrObject instanceof \JsonSerializable) {
@@ -105,8 +98,6 @@ class Builder
      */
     public function showColumns(array $columnNames)
     {
-        if ($this->table === null) throw new BuilderException('Table is not created');
-
         $this->table->setVisibleColumns($columnNames);
     }
 
@@ -118,8 +109,6 @@ class Builder
      */
     public function renderTable() : string
     {
-        if ($this->table === null) throw new BuilderException('Table is not created');
-
         if ($this->table->isEmpty()) throw new BuilderException('Cannot render empty table');
 
         $visibleColumns = $this->table->getVisibleColumns();

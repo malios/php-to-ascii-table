@@ -11,7 +11,6 @@ class BuilderTest extends TestCase
     public function testAddRows()
     {
         $builder = new Builder();
-        $builder->createTable();
         $builder->addRow(['age' => 21, 'name' => 'John']);
 
         $person = new class implements \JsonSerializable {
@@ -37,14 +36,6 @@ class BuilderTest extends TestCase
         $this->assertEquals('Bill', $rows[1]->getCell('name')->getValue());
     }
 
-    public function testAddRowWithoutCreatingTable()
-    {
-        $this->expectException(BuilderException::class);
-
-        $builder = new Builder();
-        $builder->addRow(['foo' => 'bar']);
-    }
-
     public function testAddInvalidRow()
     {
         $this->expectException(BuilderException::class);
@@ -64,23 +55,12 @@ class BuilderTest extends TestCase
         $this->expectException(BuilderException::class);
 
         $builder = new Builder();
-        $builder->createTable();
         $builder->renderTable();
     }
-
-    public function testRenderWithoutCreatingTable()
-    {
-        $this->expectException(BuilderException::class);
-
-        $builder = new Builder();
-        $builder->renderTable();
-    }
-
 
     public function testRender()
     {
         $builder = new Builder();
-        $builder->createTable();
         $builder->addRows([
             [
                 'name' => 'John',
@@ -117,7 +97,6 @@ EOD;
     public function testRenderWithSomeEmptyCells()
     {
         $builder = new Builder();
-        $builder->createTable();
         $builder->addRows([
             [
                 'name' => 'John',
@@ -152,7 +131,6 @@ EOD;
     public function testShowsOnlyVisibleColumns()
     {
         $builder = new Builder();
-        $builder->createTable();
         $builder->addRows([
             [
                 'name' => 'John',
@@ -189,7 +167,6 @@ EOD;
     public function testRenderTableWithFloatingPoint()
     {
         $builder = new Builder();
-        $builder->createTable();
         $builder->addRows([
             [
                 'Order No' => 'A0001',

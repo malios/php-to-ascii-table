@@ -24,7 +24,6 @@ $ composer require malios/php-to-ascii-table
 <?php
     $builder = new \AsciiTable\Builder();
     
-    $builder->createTable();
     $builder->addRows([
         [
             'Order No' => 'A0001',
@@ -95,7 +94,6 @@ You can build table form any object that implements JsonSerializable interface.
     }
     
     $builder = new \AsciiTable\Builder();
-    $builder->createTable();
     
     $builder->addRow(new Person('John', 25));
     $builder->addRow(new Person('Bill', 30));
