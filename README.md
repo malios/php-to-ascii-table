@@ -7,6 +7,7 @@ A small PHP library for generating plain text tables.
 ### Prerequisites
 
 - PHP >= 7
+- ext-mbstring
 - Optionally Install [php-ds](https://github.com/php-ds/extension) extension (Recommended).
 
 ### Installation
