@@ -1,6 +1,6 @@
 <?php
 
-namespace Test;
+namespace AsciiTable\Test;
 
 use AsciiTable\Cell;
 use PHPUnit\Framework\TestCase;

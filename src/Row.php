@@ -3,8 +3,9 @@
 namespace AsciiTable;
 
 use Ds\Map;
+use Ds\Collection;
 
-class Row
+class Row implements RowInterface
 {
     /**
      * @var Map
@@ -17,21 +18,17 @@ class Row
     }
 
     /**
-     * Add single cell to the row
-     *
-     * @param Cell $cell
+     * {@inheritdoc}
      */
-    public function addCell(Cell $cell)
+    public function addCell(CellInterface $cell)
     {
         $this->cells->put($cell->getColumnName(), $cell);
     }
 
     /**
-     * Add multiple cells to row
-     *
-     * @param Cell[] ...$cells
+     * {@inheritdoc}
      */
-    public function addCells(Cell ...$cells)
+    public function addCells(CellInterface ...$cells)
     {
         foreach ($cells as $cell) {
             $this->addCell($cell);
@@ -39,21 +36,15 @@ class Row
     }
 
     /**
-     * Get single cell by name
-     *
-     * @param $columnName
-     * @return Cell
+     * {@inheritdoc}
      */
-    public function getCell($columnName) : Cell
+    public function getCell($columnName) : CellInterface
     {
         return $this->cells->get($columnName);
     }
 
     /**
-     * Check if the row has a cell cell for given column
-     *
-     * @param $columnName
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasCell($columnName) : bool
     {
@@ -61,11 +52,9 @@ class Row
     }
 
     /**
-     * Get all cells
-     *
-     * @return Map
+     * {@inheritdoc}
      */
-    public function getCells() : Map
+    public function getCells() : Collection
     {
         return $this->cells;
     }

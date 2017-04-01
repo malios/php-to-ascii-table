@@ -3,7 +3,7 @@
 namespace AsciiTable;
 
 use AsciiTable\Exception\BuilderException;
-use Ds\Set;
+use Ds\Collection;
 
 class Builder
 {
@@ -146,11 +146,11 @@ class Builder
     /**
      * Render single row and return string
      *
-     * @param Row $row
-     * @param Set $columnNames
+     * @param RowInterface $row
+     * @param Collection $columnNames
      * @return string
      */
-    private function renderRow(Row $row, Set $columnNames)
+    private function renderRow(RowInterface $row, Collection $columnNames)
     {
         $line = self::CHAR_CELL_SEPARATOR;
 
@@ -173,11 +173,11 @@ class Builder
     /**
      * Render cell content with left and right padding depending on the column width
      *
-     * @param Cell $cell
+     * @param CellInterface $cell
      * @param int $colWidth
      * @return string
      */
-    private function renderCell(Cell $cell, int $colWidth) : string
+    private function renderCell(CellInterface $cell, int $colWidth) : string
     {
         $content = self::CHAR_CELL_PADDING . $cell->getValue()
                 . str_repeat(self::CHAR_CELL_PADDING, ($colWidth - $cell->getWidth() + 1));

@@ -2,7 +2,7 @@
 
 namespace AsciiTable;
 
-class Cell
+class Cell implements CellInterface
 {
     /**
      * The name of the column that the cell belongs to
@@ -28,9 +28,7 @@ class Cell
     }
 
     /**
-     * Get value of the cell
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getValue() : string
     {
@@ -38,9 +36,7 @@ class Cell
     }
 
     /**
-     * Set value of the cell.
-     *
-     * @param mixed $value
+     * {@inheritdoc}
      */
     public function setValue($value)
     {
@@ -59,9 +55,7 @@ class Cell
     }
 
     /**
-     * Get the name of the column that the cell belongs to
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getColumnName() : string
     {
@@ -69,9 +63,7 @@ class Cell
     }
 
     /**
-     * Set the name of the column that the cell belongs to
-     *
-     * @param string $columnName
+     * {@inheritdoc}
      */
     public function setColumnName(string $columnName)
     {
@@ -79,9 +71,7 @@ class Cell
     }
 
     /**
-     * Get the width (string length) of the cell
-     *
-     * @return int
+     * {@inheritdoc}
      */
     public function getWidth() : int
     {

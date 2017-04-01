@@ -5,10 +5,10 @@ namespace AsciiTable;
 use Ds\Map;
 use Ds\Set;
 
-class Table
+class Table implements TableInterface
 {
     /**
-     * @var Row[]
+     * @var RowInterface[]
      */
     private $rows = [];
 
@@ -35,11 +35,9 @@ class Table
     }
 
     /**
-     * Add single row to the table
-     *
-     * @param Row $row
+     * {@inheritdoc}
      */
-    public function addRow(Row $row)
+    public function addRow(RowInterface $row)
     {
         foreach ($row->getCells() as $cell) {
             $columnName = $cell->getColumnName();
@@ -60,9 +58,7 @@ class Table
     }
 
     /**
-     * Get all rows in the table
-     *
-     * @return Row[]
+     * {@inheritdoc}
      */
     public function getRows() : array
     {
@@ -70,9 +66,7 @@ class Table
     }
 
     /**
-     * Check if the table is empty.
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function isEmpty() : bool
     {
@@ -80,11 +74,9 @@ class Table
     }
 
     /**
-     * Set visible columns
-     *
-     * @param $columnNames
+     * {@inheritdoc}
      */
-    public function setVisibleColumns($columnNames)
+    public function setVisibleColumns(array $columnNames)
     {
         $this->visibleColumns->clear();
         $this->visibleColumns->allocate(count($columnNames));
@@ -92,9 +84,7 @@ class Table
     }
 
     /**
-     * Get visible columns
-     *
-     * @return Set
+     * {@inheritdoc}
      */
     public function getVisibleColumns() : Set
     {
@@ -106,9 +96,7 @@ class Table
     }
 
     /**
-     * Get all columns in the table
-     *
-     * @return Set
+     * {@inheritdoc}
      */
     public function getAllColumns() : Set
     {
@@ -116,10 +104,7 @@ class Table
     }
 
     /**
-     * Get the width of a column by name
-     *
-     * @param string $columnName
-     * @return int
+     * {@inheritdoc}
      */
     public function getColumnWidth(string $columnName) : int
     {
