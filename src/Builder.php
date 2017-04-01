@@ -79,7 +79,7 @@ class Builder
     /**
      * Add multiple rows
      *
-     * @param Row[] $rows
+     * @param array[]|\JsonSerializable[] $rows
      * @return void
      */
     public function addRows(array $rows)
@@ -179,7 +179,7 @@ class Builder
      */
     private function renderCell(Cell $cell, int $colWidth) : string
     {
-        $content = self::CHAR_CELL_PADDING . (string) $cell->getValue()
+        $content = self::CHAR_CELL_PADDING . $cell->getValue()
                 . str_repeat(self::CHAR_CELL_PADDING, ($colWidth - $cell->getWidth() + 1));
 
         return $content;
