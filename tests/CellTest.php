@@ -46,8 +46,7 @@ class CellTest extends TestCase
         $cell = new Cell('name', 'Иван');
         $this->assertEquals(4, $cell->getWidth());
 
-        $cell = new Cell('message', 'Hello, 世界');
-        $this->assertEquals(9, $cell->getWidth());
+        $cell = new Cell('message', 'Hello, 世界'); // 世界 - this string is with width 4
+        $this->assertEquals(11, $cell->getWidth());
     }
-
 }

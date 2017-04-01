@@ -270,4 +270,30 @@ EOD;
 EOD;
         $this->assertEquals($expected, $result);
     }
+    public function testRenderWithChineseColumnNames()
+    {
+        $builder = new Builder();
+        $builder->addRows([
+            [
+                'language' => 'English',
+                'greeting' => 'Hello, World'
+            ],
+            [
+                'language' => 'mixed',
+                'greeting' => 'Hello, 世界'
+            ]
+        ]);
+
+        $result = $builder->renderTable();
+
+        $expected = <<<EOD
++----------+--------------+
+| language | greeting     |
++----------+--------------+
+| English  | Hello, World |
+| mixed    | Hello, 世界  |
++----------+--------------+
+EOD;
+        $this->assertEquals($expected, $result);
+    }
 }
