@@ -82,13 +82,13 @@ class BuilderTest extends TestCase
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+-----------+-----+--------+
-| name      | age | sex    |
-+-----------+-----+--------+
-| John      | 23  | male   |
-| Catherine | 22  | female |
-| Johnathan | 44  | male   |
-+-----------+-----+--------+
+┌───────────┬─────┬────────┐
+│ name      │ age │ sex    │
+├───────────┼─────┼────────┤
+│ John      │  23 │ male   │
+│ Catherine │  22 │ female │
+│ Johnathan │  44 │ male   │
+└───────────┴─────┴────────┘
 EOD;
 
         $this->assertEquals($expected, $result);
@@ -116,13 +116,13 @@ EOD;
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+-----------+-----+--------+
-| name      | age | sex    |
-+-----------+-----+--------+
-| John      | 23  | male   |
-| Catherine |     | female |
-| Johnathan | 44  |        |
-+-----------+-----+--------+
+┌───────────┬─────┬────────┐
+│ name      │ age │ sex    │
+├───────────┼─────┼────────┤
+│ John      │  23 │ male   │
+│ Catherine │     │ female │
+│ Johnathan │  44 │        │
+└───────────┴─────┴────────┘
 EOD;
 
         $this->assertEquals($expected, $result);
@@ -153,13 +153,13 @@ EOD;
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+-----------+-----+
-| name      | age |
-+-----------+-----+
-| John      | 23  |
-| Catherine | 22  |
-| Johnathan | 44  |
-+-----------+-----+
+┌───────────┬─────┐
+│ name      │ age │
+├───────────┼─────┤
+│ John      │  23 │
+│ Catherine │  22 │
+│ Johnathan │  44 │
+└───────────┴─────┘
 EOD;
         $this->assertEquals($expected, $result);
     }
@@ -204,15 +204,15 @@ EOD;
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+----------+----------------+-----------+----------+
-| Order No | Product Name   | Price     | Quantity |
-+----------+----------------+-----------+----------+
-| A0001    | Intel CPU      | 700.00    | 1        |
-| A0002    | Hard disk 10TB | 500.00    | 2        |
-| A0003    | Dell Laptop    | 11 600.00 | 8        |
-| A0004    | Intel CPU      | 5 200.00  | 3        |
-| A0005    | A4Tech Mouse   | 100.00    | 10       |
-+----------+----------------+-----------+----------+
+┌──────────┬────────────────┬───────────┬──────────┐
+│ Order No │ Product Name   │ Price     │ Quantity │
+├──────────┼────────────────┼───────────┼──────────┤
+│ A0001    │ Intel CPU      │    700.00 │        1 │
+│ A0002    │ Hard disk 10TB │    500.00 │        2 │
+│ A0003    │ Dell Laptop    │ 11 600.00 │        8 │
+│ A0004    │ Intel CPU      │  5 200.00 │        3 │
+│ A0005    │ A4Tech Mouse   │    100.00 │       10 │
+└──────────┴────────────────┴───────────┴──────────┘
 EOD;
         $this->assertEquals($expected, $result);
     }
@@ -234,12 +234,12 @@ EOD;
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+------+-----+
-| name | age |
-+------+-----+
-| John | 21  |
-| Иван | 23  |
-+------+-----+
+┌──────┬─────┐
+│ name │ age │
+├──────┼─────┤
+│ John │  21 │
+│ Иван │  23 │
+└──────┴─────┘
 EOD;
         $this->assertEquals($expected, $result);
     }
@@ -249,24 +249,24 @@ EOD;
         $builder = new Builder();
         $builder->addRows([
             [
-                'име' => 'Джон',
-                'год.' => 21
+                'имя' => 'Джон',
+                'год' => 21
             ],
             [
-                'име' => 'Иван',
-                'год.' => 23
+                'имя' => 'Иван',
+                'год' => 23
             ]
         ]);
 
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+------+------+
-| име  | год. |
-+------+------+
-| Джон | 21   |
-| Иван | 23   |
-+------+------+
+┌──────┬─────┐
+│ имя  │ год │
+├──────┼─────┤
+│ Джон │  21 │
+│ Иван │  23 │
+└──────┴─────┘
 EOD;
         $this->assertEquals($expected, $result);
     }
@@ -287,12 +287,41 @@ EOD;
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-+----------+--------------+
-| language | greeting     |
-+----------+--------------+
-| English  | Hello, World |
-| mixed    | Hello, 世界  |
-+----------+--------------+
+┌──────────┬──────────────┐
+│ language │ greeting     │
+├──────────┼──────────────┤
+│ English  │ Hello, World │
+│ mixed    │ Hello, 世界  │
+└──────────┴──────────────┘
+EOD;
+        $this->assertEquals($expected, $result);
+    }
+
+    public function testRenderWithTitle()
+    {
+        $builder = new Builder();
+        $builder->addRows([
+            [
+                'language' => 'English',
+                'greeting' => 'Hello, World'
+            ],
+            [
+                'language' => 'mixed',
+                'greeting' => 'Hello, 世界'
+            ]
+        ]);
+        $builder->setTitle('Greetings');
+
+        $result = $builder->renderTable();
+
+        $expected = <<<EOD
+         Greetings
+┌──────────┬──────────────┐
+│ language │ greeting     │
+├──────────┼──────────────┤
+│ English  │ Hello, World │
+│ mixed    │ Hello, 世界  │
+└──────────┴──────────────┘
 EOD;
         $this->assertEquals($expected, $result);
     }

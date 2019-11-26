@@ -16,7 +16,7 @@ interface RowInterface
     /**
      * Add multiple cells to row
      *
-     * @param CellInterface[] ...$cells
+     * @param CellInterface ...$cells
      */
     public function addCells(CellInterface ...$cells);
 

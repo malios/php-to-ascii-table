@@ -5,6 +5,16 @@ namespace AsciiTable;
 class Cell implements CellInterface
 {
     /**
+     * int
+     */
+    const ALIGN_LEFT = 0;
+
+    /**
+     * int
+     */
+    const ALIGN_RIGHT = 1;
+
+    /**
      * The name of the column that the cell belongs to
      *
      * @var string
@@ -15,6 +25,11 @@ class Cell implements CellInterface
      * @var string
      */
     private $value;
+
+    /**
+     * @var int
+     */
+    private $align = self::ALIGN_LEFT;
 
     /**
      * @var int
@@ -47,11 +62,21 @@ class Cell implements CellInterface
             } else {
                 $this->value = (string) $value;
             }
+            $this->align = self::ALIGN_RIGHT;
+        } elseif (is_int($value)) {
+            $this->value = (string) $value;
+            $this->align = self::ALIGN_RIGHT;
         } else {
             $this->value = (string) $value;
+            $this->align = self::ALIGN_LEFT;
         }
 
         $this->width = mb_strwidth($this->value);
+    }
+
+    public function getAlign(): int
+    {
+        return $this->align;
     }
 
     /**

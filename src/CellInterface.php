@@ -26,6 +26,13 @@ interface CellInterface
     public function getColumnName() : string;
 
     /**
+     * Get the alignment of the cell
+     *
+     * @return int
+     */
+    public function getAlign(): int;
+
+    /**
      * Set the name of the column that the cell belongs to
      *
      * @param string $columnName
