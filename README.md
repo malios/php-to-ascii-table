@@ -58,9 +58,12 @@ $ composer require malios/php-to-ascii-table
         'Price' => 100.00,
         'Quantity' => 10
     ]);
+
+    $builder->setTitle('Product List');
     
     echo $builder->renderTable();
-    
+   
+
     // Show only some fields
     
     $builder->showColumns(['Order No', 'Product Name', 'Quantity']);

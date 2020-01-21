@@ -21,8 +21,8 @@
         "ext-mbstring": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0",
-        "phpstan/phpstan": "^0.6.4"
+        "phpunit/phpunit": "@stable",
+        "vimeo/psalm": "@stable"
     },
     "minimum-stability": "dev",
     "autoload": {
@@ -38,9 +38,9 @@
     "scripts": {
         "test": [
             "@phpunit",
-            "@phpstan"
+            "@psalm"
         ],
         "phpunit": "phpunit tests/ colors=always",
-        "phpstan": "phpstan analyse src/ -l 5"
+        "psalm": "psalm"
     }
 }

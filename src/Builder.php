@@ -10,12 +10,12 @@ class Builder
     /**
      * @var string
      */
-    const CHAR_CELL_SEPARATOR = '|';
+    const CHAR_CELL_SEPARATOR = '│';
 
     /**
      * @var string
      */
-    const CHAR_LINE_SEPARATOR = '-';
+    const CHAR_LINE_SEPARATOR = '─';
 
     /**
      * @var string
@@ -25,12 +25,57 @@ class Builder
     /**
      * @var string
      */
-    const CHAR_CORNER_SEPARATOR = '+';
+    const CHAR_JOIN_INNER = '┼';
+
+    /**
+     * @var string
+     */
+    const CHAR_CORNER_TOP_LEFT = '┌';
+
+    /**
+     * @var string
+     */
+    const CHAR_CORNER_TOP_RIGHT = '┐';
+
+    /**
+     * @var string
+     */
+    const CHAR_JOIN_LEFT_INNER = '├';
+
+    /**
+     * @var string
+     */
+    const CHAR_JOIN_RIGHT_INNER = '┤';
+
+    /**
+     * @var string
+     */
+    const CHAR_JOIN_TOP_INNER = '┬';
+
+    /**
+     * @var string
+     */
+    const CHAR_JOIN_BOTTOM_INNER = '┴';
+
+    /**
+     * @var string
+     */
+    const CHAR_CORNER_BOTTOM_LEFT = '└';
+
+    /**
+     * @var string
+     */
+    const CHAR_CORNER_BOTTOM_RIGHT = '┘';
 
     /**
      * @var Table
      */
     private $table;
+
+    /**
+     * @var string|null
+     */
+    private $title;
 
     public function __construct()
     {
@@ -76,6 +121,11 @@ class Builder
         $this->table->addRow($row);
     }
 
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    }
+
     /**
      * Add multiple rows
      *
@@ -119,9 +169,15 @@ class Builder
             return str_repeat(self::CHAR_LINE_SEPARATOR, ($width + 2));
         }, $visibleColumns->toArray());
 
-        $border = self::CHAR_CORNER_SEPARATOR
-                . join(self::CHAR_CORNER_SEPARATOR, $borderParts)
-                . self::CHAR_CORNER_SEPARATOR;
+        $borderTop = self::CHAR_CORNER_TOP_LEFT
+                . join(self::CHAR_JOIN_TOP_INNER, $borderParts)
+                . self::CHAR_CORNER_TOP_RIGHT;
+        $borderMiddle = self::CHAR_JOIN_LEFT_INNER
+                . join(self::CHAR_JOIN_INNER, $borderParts)
+                . self::CHAR_JOIN_RIGHT_INNER;
+        $borderBottom = self::CHAR_CORNER_BOTTOM_LEFT
+                . join(self::CHAR_JOIN_BOTTOM_INNER, $borderParts)
+                . self::CHAR_CORNER_BOTTOM_RIGHT;
 
         $headerCells = array_map(function ($columnName) {
             return new Cell($columnName, $columnName);
@@ -139,7 +195,14 @@ class Builder
             $body .= $currentLine . PHP_EOL;
         }
 
-        $tableAsString = $border . PHP_EOL . $header . PHP_EOL . $border . PHP_EOL . $body . $border;
+        if ($this->title === null) {
+            $titleString = '';
+        } else {
+            $titlePadding = intdiv(max(0, mb_strwidth($borderTop) - mb_strwidth($this->title)), 2);
+            $titleString = str_repeat(' ', $titlePadding) . $this->title . PHP_EOL;
+        }
+
+        $tableAsString = $titleString . $borderTop . PHP_EOL . $header . PHP_EOL . $borderMiddle . PHP_EOL . $body . $borderBottom;
         return $tableAsString;
     }
 
@@ -179,9 +242,12 @@ class Builder
      */
     private function renderCell(CellInterface $cell, int $colWidth) : string
     {
-        $content = self::CHAR_CELL_PADDING . $cell->getValue()
-                . str_repeat(self::CHAR_CELL_PADDING, ($colWidth - $cell->getWidth() + 1));
-
+        $filler = str_repeat(self::CHAR_CELL_PADDING, ($colWidth - $cell->getWidth()));
+        if ($cell->getAlign() == Cell::ALIGN_LEFT) {
+            $content = self::CHAR_CELL_PADDING . $cell->getValue() . $filler . self::CHAR_CELL_PADDING;
+        } else {
+            $content = self::CHAR_CELL_PADDING . $filler . $cell->getValue() . self::CHAR_CELL_PADDING;
+        }
         return $content;
     }
 }
