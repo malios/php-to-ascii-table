@@ -94,6 +94,42 @@ EOD;
         $this->assertEquals($expected, $result);
     }
 
+    public function testRenderWithSuperscripts()
+    {
+        $builder = new Builder();
+        $builder->addRows([
+            [
+                'name' => 'บรรลุผล',
+                'age' => 23,
+                'sex' => 'male'
+            ],
+            [
+                'name' => 'กสิกร',
+                'age' => 22,
+                'sex' => 'female'
+            ],
+            [
+                'name' => 'ปลูกฝี',
+                'age' => 44,
+                'sex' => 'male'
+            ]
+        ]);
+
+        $result = $builder->renderTable();
+
+        $expected = <<<EOD
+┌────────┬─────┬────────┐
+│ name   │ age │ sex    │
+├────────┼─────┼────────┤
+│ บรรลุผล │  23 │ male   │
+│ กสิกร   │  22 │ female │
+│ ปลูกฝี   │  44 │ male   │
+└────────┴─────┴────────┘
+EOD;
+
+        $this->assertEquals($expected, $result);
+    }
+
     public function testRenderWithSomeEmptyCells()
     {
         $builder = new Builder();
@@ -275,24 +311,24 @@ EOD;
         $builder = new Builder();
         $builder->addRows([
             [
-                'language' => 'English',
-                'greeting' => 'Hello, World'
+                '语言' => 'English',
+                '问候' => 'Hello, World'
             ],
             [
-                'language' => 'mixed',
-                'greeting' => 'Hello, 世界'
+                '语言' => 'Chinese',
+                '问候' => 'Hello, 世界'
             ]
         ]);
 
         $result = $builder->renderTable();
 
         $expected = <<<EOD
-┌──────────┬──────────────┐
-│ language │ greeting     │
-├──────────┼──────────────┤
-│ English  │ Hello, World │
-│ mixed    │ Hello, 世界  │
-└──────────┴──────────────┘
+┌─────────┬──────────────┐
+│ 语言      │ 问候           │
+├─────────┼──────────────┤
+│ English │ Hello, World │
+│ Chinese │ Hello, 世界    │
+└─────────┴──────────────┘
 EOD;
         $this->assertEquals($expected, $result);
     }
@@ -306,7 +342,7 @@ EOD;
                 'greeting' => 'Hello, World'
             ],
             [
-                'language' => 'mixed',
+                'language' => '普通话',
                 'greeting' => 'Hello, 世界'
             ]
         ]);
@@ -320,7 +356,7 @@ EOD;
 │ language │ greeting     │
 ├──────────┼──────────────┤
 │ English  │ Hello, World │
-│ mixed    │ Hello, 世界  │
+│ 普通话      │ Hello, 世界    │
 └──────────┴──────────────┘
 EOD;
         $this->assertEquals($expected, $result);

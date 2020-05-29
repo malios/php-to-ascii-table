@@ -71,7 +71,11 @@ class Cell implements CellInterface
             $this->align = self::ALIGN_LEFT;
         }
 
-        $this->width = mb_strwidth($this->value);
+        if (function_exists('grapheme_strlen')) {
+            $this->width = grapheme_strlen($this->value);
+        } else {
+            $this->width = mb_strwidth($this->value);
+        }
     }
 
     public function getAlign(): int
